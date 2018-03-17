@@ -8,6 +8,7 @@ contract Lotto {
     uint256 public totalBet;
     uint256 public totalCall;
     address[] private players;
+    address[] private winnerPlayers;
 
     struct Bet {
         uint256 bet; // the money user want to bet
@@ -49,7 +50,6 @@ contract Lotto {
     }
 
     function distributePrizes(uint chosenNumber) public {
-        address[] winnerPlayers;
         // calculate the number of winners
         for (uint256 i = 0; i < players.length; i++) {
             address player = players[i];
