@@ -35,7 +35,7 @@ contract Lotto {
         // one player can not bet more than a certain times
         require(playerInfo[msg.sender].length + 1 <= MAXBET4APLAYER);
 
-        Bet b = Bet({bet: msg.value, select: number});
+        Bet memory b = Bet({bet: msg.value, select: number});
         playerInfo[msg.sender].push(b);
 
         // keep tract of unique players
@@ -84,7 +84,7 @@ contract Lotto {
         }
     }
 
-    function random() private returns (uint) {
+    function random() private view returns (uint) {
         return uint8(uint256(keccak256(block.timestamp, block.difficulty))%10);
     }
 
@@ -97,7 +97,12 @@ contract Lotto {
         players.push(a);
     }
 
-    function playerWin(Bet[] bets, uint number) private returns (bool) {
-        return true;
+    function playerWin(Bet[] bets, uint number) private view returns (bool) {
+        for (uint256 i = 0; i < bets.length; i++) {
+            if (bets[i].select == number) {
+                return true;
+            }
+        }
+        return false;
     }
 }
