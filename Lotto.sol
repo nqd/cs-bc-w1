@@ -4,20 +4,23 @@ pragma solidity ^0.4.21;
 contract Lotto {
     uint256 public minBet;
     uint256 public triggerCall;
+
+    uint constant MAXBET4APLAYER = 4; 
+
     address public owner;
     uint256 public totalBet;
     uint256 public totalCall;
+
     address[] private players;
     address[] private winnerPlayers;
 
     struct Bet {
         uint256 bet; // the money user want to bet
         uint select; // the value use choose
-        uint count; // the number of bet
     }
 
     // a mapping from player to player's bet
-    mapping(address => Bet) public playerInfo;
+    mapping(address => Bet[]) public playerInfo;
 
     function Lotto(uint256 min, uint256 call) public {
         owner = msg.sender;
@@ -29,12 +32,14 @@ contract Lotto {
         require(number >= 1 && number <= 10);
         require(msg.value >= minBet);
 
-        playerInfo[msg.sender].bet = msg.value;
-        playerInfo[msg.sender].select = number;
-        playerInfo[msg.sender].count++;
+        // one player can not bet more than a certain times
+        require(playerInfo[msg.sender].length + 1 <= MAXBET4APLAYER);
+
+        Bet b = Bet({bet: msg.value, select: number});
+        playerInfo[msg.sender].push(b);
 
         // keep tract of player
-        players.push(msg.sender);
+        savePlayer(msg.sender);
 
         totalBet += msg.value;
         totalCall++;
@@ -79,5 +84,14 @@ contract Lotto {
 
     function random() private returns (uint) {
         return uint8(uint256(keccak256(block.timestamp, block.difficulty))%10);
+    }
+
+    function savePlayer(address a) private {
+        for (uint256 i = 0; i < players.length; i++) {
+            if (players[i] == a) {
+                return;
+            }
+        }
+        players.push(a);
     }
 }
