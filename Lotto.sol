@@ -46,6 +46,12 @@ contract Lotto {
 
         if (totalCall >= triggerCall) {
             generateNumberWinner();
+
+            // then re-initialize
+            totalBet = 0;
+            totalCall = 0;
+            players.length = 0;
+            winnerPlayers.length = 0;
         }
     }
 
@@ -64,8 +70,9 @@ contract Lotto {
             }
         }
 
-        // if no winner, exit
+        // if no winner, transfer all to owner (waoo)
         if (winnerPlayers.length == 0) {
+            owner.transfer(totalBet);
             return;
         }
 
@@ -74,8 +81,6 @@ contract Lotto {
         for (uint256 j = 0; j < winnerPlayers.length; j++) {
             winnerPlayers[j].transfer(winnerEtherAmount);
         }
-
-        // then initialize the contract
     }
 
     function kill() public {
