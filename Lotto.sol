@@ -38,7 +38,7 @@ contract Lotto {
         Bet b = Bet({bet: msg.value, select: number});
         playerInfo[msg.sender].push(b);
 
-        // keep tract of player
+        // keep tract of unique players
         savePlayer(msg.sender);
 
         totalBet += msg.value;
@@ -59,7 +59,7 @@ contract Lotto {
         for (uint256 i = 0; i < players.length; i++) {
             address player = players[i];
             // find the winner
-            if (playerInfo[player].select == chosenNumber) {
+            if (playerWin(playerInfo[player], chosenNumber) == true) {
                 winnerPlayers.push(player);
             }
         }
@@ -69,17 +69,19 @@ contract Lotto {
             return;
         }
 
+        // distribute the prize
         uint256 winnerEtherAmount = totalBet / winnerPlayers.length;
         for (uint256 j = 0; j < winnerPlayers.length; j++) {
             winnerPlayers[j].transfer(winnerEtherAmount);
         }
 
-        // distribute the prize
         // then initialize the contract
     }
 
     function kill() public {
-        if (msg.sender == owner) selfdestruct(owner);
+        if (msg.sender == owner) {
+            selfdestruct(owner);
+        }
     }
 
     function random() private returns (uint) {
@@ -93,5 +95,9 @@ contract Lotto {
             }
         }
         players.push(a);
+    }
+
+    function playerWin(Bet[] bets, uint number) private returns (bool) {
+        return true;
     }
 }
