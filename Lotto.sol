@@ -80,5 +80,4 @@ contract Lotto {
     function random() private returns (uint) {
         return uint8(uint256(keccak256(block.timestamp, block.difficulty))%10);
     }
-
 }
