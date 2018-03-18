@@ -1,21 +1,66 @@
 'use strict'
 
 const express = require('express')
-const contractInstance = require('./deployContract.js')
-const web3 = require('./web3Client.js')
+const contract = require('./contract.js')
 const app = express()
 const bodyParser = require('body-parser')
-const candidates = require('./candidates.js')
 const path = require('path')
+
+// const web3 = require('./web3Client.js')
+// const candidates = require('./candidates.js')
+
+let contractInstance
+const CONTRACTGAS = 4700000
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + 'public/index.html'))
 })
 
+// start the game
+app.post('/game', (req, res) => {
+  if (!req.body.minBet && !req.body.triggerCall) {
+    return res.status(400).send('Invalid arg')
+  }
+
+  try {
+    contractInstance = contract(req.body.minBet, req.body.triggerCall)
+    return res.send({ ok: true })
+  } catch (e) {
+    res.status(500).send(e)
+  }
+})
+
+// lets bet
+app.post('/bet', (req, res) => {
+  if (!req.body.account && !req.body.number && !req.body.value) {
+    return res.status(400).send('Invalid arg')
+  }
+  // todo:
+  // - req.body.account is in [0, 9]
+  // - req.body.number is in [1, 10]
+
+  try {
+    deployedContract.pickNumber(
+      req.body.number,
+      {
+        from: web3.eth.accounts[req.body.account],
+        value: web3.toDecimal(req.body.value),
+        gas: CONTRACTGAS
+      }, (err) => {
+        console.log('err', err)
+        if (err) {
+          return res.status(400).send(err)
+        }
+        return res.send({ ok: true })
+      })
+  } catch (e) {
+    res.status(500).send(e)
+  }
+})
 
 app.listen(3000, function () {
-  console.log('server is at :3000')
+  console.log('Server is running at :3000')
 });
