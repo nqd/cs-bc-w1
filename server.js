@@ -25,7 +25,9 @@ app.post('/game', (req, res) => {
   }
 
   try {
-    contractInstance = contract(req.body.minBet, req.body.triggerCall)
+    contractInstance = contract(
+      web3.toWei(req.body.minBet),
+      req.body.triggerCall)
     return res.send({ ok: true })
   } catch (e) {
     res.status(500).send(e)
@@ -51,6 +53,7 @@ app.post('/bet', (req, res) => {
         gas: CONTRACTGAS
       }, (err) => {
         if (err) {
+          console.log('pickNumber err', err)
           return res.status(400).send(err)
         }
         return res.send({ ok: true })

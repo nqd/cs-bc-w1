@@ -8,8 +8,8 @@ contract Lotto {
     uint constant MAXBET4APLAYER = 4; 
 
     address public owner;
-    uint256 public totalBet;
-    uint256 public totalCall;
+    uint256 public totalBet = 0;
+    uint256 public totalCall = 0;
 
     address[] private players;
     address[] private winnerPlayers;
@@ -72,7 +72,7 @@ contract Lotto {
 
         // if no winner, transfer all to owner (waoo)
         if (winnerPlayers.length == 0) {
-            owner.transfer(totalBet);
+            // owner.transfer(totalBet);
             return;
         }
 
@@ -90,7 +90,8 @@ contract Lotto {
     }
 
     function random() private view returns (uint) {
-        return uint8(uint256(keccak256(block.timestamp, block.difficulty))%10);
+        return 5;
+        // return uint(uint256(keccak256(block.timestamp, block.difficulty))%10);
     }
 
     function savePlayer(address a) private {

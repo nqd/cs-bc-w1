@@ -52,10 +52,13 @@ function bet(i) {
       value: bet
     }),
   })
-    .then(res => res.json())
     .then(res => {
-      console.log('bet response', res)
-      updatePlayerBalances()
+      if (res.status === 200) {
+        console.log('bet response', res.json())
+        updatePlayerBalances()
+      } else {
+        console.log('bet fail', res.status, res.body)
+      }
     }).catch(function (e) {
       // Error
       console.log(e)
