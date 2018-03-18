@@ -26,6 +26,13 @@
   <h2>Let's bet</h2>
 
   Player
+  <input type="text" id="player0" /> bets
+  <input type="text" id="bet0" /> eth with
+  <input type="text" id="number0" /> number.
+  <a href="#" onclick="bet0()" class="btn btn-primary">Bet</a>
+  
+  <br>
+  Player
   <input type="text" id="player1" /> bets
   <input type="text" id="bet1" /> eth with
   <input type="text" id="number1" /> number.
@@ -67,10 +74,24 @@
           <th>9</th>
         </tr>
       </thead>
-      <tbody id="candidatesTable">
+      <tbody id="playerBalanceTable">
+        <tr>
+          <th>Eth</th>
+          <th><p id="balance0"></p></th>
+          <th><p id="balance1"></p></th>
+          <th><p id="balance2"></p></th>
+          <th><p id="balance3"></p></th>
+          <th><p id="balance4"></p></th>
+          <th><p id="balance5"></p></th>
+          <th><p id="balance6"></p></th>
+          <th><p id="balance7"></p></th>
+          <th><p id="balance8"></p></th>
+          <th><p id="balance9"></p></th>
+        </tr>
       </tbody>
     </table>
   </div>
+  <a href="#" onclick="updatePlayerBalances()" class="btn btn-primary">Update</a>
 
 </body>
 
