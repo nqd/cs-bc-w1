@@ -6,8 +6,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
 
-// const web3 = require('./web3Client.js')
-// const candidates = require('./candidates.js')
+const web3 = require('./web3Client')
 
 let contractInstance
 const CONTRACTGAS = 4700000
@@ -43,11 +42,12 @@ app.post('/bet', (req, res) => {
   // - req.body.number is in [1, 10]
 
   try {
-    deployedContract.pickNumber(
+    contractInstance.pickNumber(
       req.body.number,
       {
         from: web3.eth.accounts[req.body.account],
-        value: web3.toDecimal(req.body.value),
+        // all smart contracts have to calculate ether values in Wei
+        value: web3.toWei(req.body.value),
         gas: CONTRACTGAS
       }, (err) => {
         console.log('err', err)
@@ -57,6 +57,7 @@ app.post('/bet', (req, res) => {
         return res.send({ ok: true })
       })
   } catch (e) {
+    console.log(e)
     res.status(500).send(e)
   }
 })

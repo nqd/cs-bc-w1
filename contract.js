@@ -1,9 +1,7 @@
 'use strict'
 
 const fs = require('fs')
-const Web3 = require('web3')
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
-
+const web3 = require('./web3Client')
 const code = fs.readFileSync('Lotto.sol').toString()
 const solc = require('solc')
 const compiledCode = solc.compile(code)
