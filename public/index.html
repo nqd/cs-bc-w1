@@ -2,42 +2,28 @@
 <html>
 
 <head>
-  <title>Hello World DApp</title>
+  <title>Virtual Lotto</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="./index.js"></script>
 </head>
 
 <body class="container">
-  <h1>A Simple Hello World Voting Application</h1>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Candidate</th>
-          <th>Votes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Rama</td>
-          <td id="candidate-1"></td>
-        </tr>
-        <tr>
-          <td>Nick</td>
-          <td id="candidate-2"></td>
-        </tr>
-        <tr>
-          <td>Jose</td>
-          <td id="candidate-3"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <input type="text" id="candidate" />
-  <a href="#" onclick="voteForCandidate()" class="btn btn-primary">Vote</a>
+  <h1>A virtual lotto game in ethereum network</h1>
+
+  <h2>Create new game</h2>
+
+  Owner:
+  <input type="text" id="gameOwner" />
+  <br> Minimum bet (eth):
+  <input type="text" id="gameMinBet" />
+  <br> Turn over after:
+  <input type="text" id="gameVotes" />
+  <br>
+  <a href="#" onclick="createGame()" class="btn btn-primary">Create game</a>
+
+  <h2>Let's bet</h2>
 </body>
-<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="public/index.js"></script>
 
 </html>
