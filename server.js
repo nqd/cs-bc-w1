@@ -50,7 +50,6 @@ app.post('/bet', (req, res) => {
         value: web3.toWei(req.body.value),
         gas: CONTRACTGAS
       }, (err) => {
-        console.log('err', err)
         if (err) {
           return res.status(400).send(err)
         }
@@ -60,6 +59,16 @@ app.post('/bet', (req, res) => {
     console.log(e)
     res.status(500).send(e)
   }
+})
+
+app.get('/balances', (req, res) => {
+  let balances = {}
+  for (let i = 0; i < 10; i++) {
+    const balance = web3.eth.getBalance(web3.eth.accounts[i])
+    const eth = web3.fromWei(balance.toNumber())
+    balances[i] = eth
+  }
+  res.send(balances)
 })
 
 app.listen(3000, function () {
