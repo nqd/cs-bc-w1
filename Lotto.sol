@@ -90,8 +90,7 @@ contract Lotto {
     }
 
     function random() private view returns (uint) {
-        return 5;
-        // return uint(uint256(keccak256(block.timestamp, block.difficulty))%10);
+        return uint(uint256(keccak256(block.timestamp, block.difficulty))%10);
     }
 
     function savePlayer(address a) private {
